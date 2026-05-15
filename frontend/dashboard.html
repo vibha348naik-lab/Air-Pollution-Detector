@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Air Quality Monitor - Dashboard</title>
+  
+  <link rel="stylesheet" href="style.css" />
+  
+  <!-- Google Font: Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Leaflet CSS for Map -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+</head>
+
+<body class="dashboard-body">
+
+  <div class="dashboard-wrapper">
+    <header class="dashboard-header glass-panel">
+      <div class="logo">
+        <span class="icon">🌍</span>
+        <h2>AeroSense</h2>
+      </div>
+      <p class="subtitle">Real-time Global Air Quality Index</p>
+      <button id="logoutBtn" class="btn-secondary">Logout</button>
+    </header>
+
+    <main class="main-content">
+      <!-- Options Panel -->
+      <section class="selection-panel glass-panel">
+        <h3>Select Location</h3>
+        
+        <div class="tabs">
+          <button class="tab-btn active" data-tab="search-tab">Search City</button>
+          <button class="tab-btn" data-tab="map-tab">Pin on Map</button>
+        </div>
+
+        <div class="tab-content active" id="search-tab">
+          <div class="search-box">
+            <input type="text" id="locationInput" placeholder="e.g. London, New York..." autocomplete="off"/>
+            <button id="searchBtn" class="btn-primary">Search</button>
+          </div>
+        </div>
+
+        <div class="tab-content" id="map-tab">
+          <p class="instruction">Click anywhere on the map to get the AQI for that specific location.</p>
+          <div id="map"></div>
+        </div>
+      </section>
+
+      <!-- Results Panel -->
+      <section class="results-panel glass-panel" id="resultsPanel" style="display: none;">
+        
+        <div class="result-header">
+          <h2 id="cityName">City Name</h2>
+          <div class="loader" id="loader" style="display:none;"></div>
+        </div>
+
+        <div class="aqi-main-display">
+          <div class="aqi-circle" id="aqiCircle">
+            <span id="aqiValue">--</span>
+            <span class="aqi-label">AQI</span>
+          </div>
+          <div class="aqi-info">
+            <h3 id="aqiStatus">Status</h3>
+            <span class="risk-badge" id="riskBadge">Risk: Unknown</span>
+          </div>
+        </div>
+
+        <div class="precautions-box">
+          <h4>Health Precautions</h4>
+          <ul id="aqiPrecautions">
+            <li>Select a location to see precautions.</li>
+          </ul>
+        </div>
+
+        <!-- Pollutants -->
+        <h4 class="pollutants-title">Key Pollutants</h4>
+        <div class="pollutants">
+          <div class="pollutant-card">
+            <h5>PM2.5</h5>
+            <p id="pm25">--</p>
+            <small>µg/m³</small>
+          </div>
+          <div class="pollutant-card">
+            <h5>PM10</h5>
+            <p id="pm10">--</p>
+            <small>µg/m³</small>
+          </div>
+          <div class="pollutant-card">
+            <h5>NO₂</h5>
+            <p id="no2">--</p>
+            <small>µg/m³</small>
+          </div>
+          <div class="pollutant-card">
+            <h5>O₃</h5>
+            <p id="o3">--</p>
+            <small>µg/m³</small>
+          </div>
+        </div>
+
+      </section>
+    </main>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="script.js"></script>
+
+</body>
+</html>

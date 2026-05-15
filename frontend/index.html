@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Air Quality Monitor - Login</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="login-body">
+
+  <div class="login-container glass-panel">
+    <div class="login-header">
+      <div class="icon-pulse">🌍</div>
+      <h1>Admin Portal</h1>
+      <p>Enter your credentials to access the Air Quality dashboard.</p>
+    </div>
+
+    <form id="loginForm" class="login-form">
+      <div class="input-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" placeholder="Enter 'admin'" required autocomplete="off" />
+      </div>
+      
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Enter 'admin123'" required />
+      </div>
+
+      <button type="submit" class="btn-primary">Login to Dashboard</button>
+      <p id="loginError" class="error-msg"></p>
+    </form>
+  </div>
+
+  <script src="login.js"></script>
+</body>
+</html>
