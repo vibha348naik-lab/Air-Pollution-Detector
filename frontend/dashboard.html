@@ -13,6 +13,16 @@
 
   <!-- Leaflet CSS for Map -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+
+  <!-- Dynamic Theme Loader (Prevents flash of dark theme on load) -->
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      if (savedTheme === 'light') {
+        document.documentElement.classList.add('light-theme');
+      }
+    })();
+  </script>
 </head>
 
 <body class="dashboard-body">
@@ -23,8 +33,18 @@
         <span class="icon">🌍</span>
         <h2>AeroSense</h2>
       </div>
-      <p class="subtitle">Real-time Global Air Quality Index</p>
-      <button id="logoutBtn" class="btn-secondary">Logout</button>
+      
+      <div class="header-nav">
+        <ul class="nav-links">
+          <li><a href="dashboard.html" class="active">Dashboard</a></li>
+          <li><a href="pages/about.html">About</a></li>
+        </ul>
+      </div>
+      
+      <div class="header-actions">
+        <button id="themeToggleBtn" class="btn-theme" title="Toggle Light/Dark Theme">🌓</button>
+        <button id="logoutBtn" class="btn-secondary">Logout</button>
+      </div>
     </header>
 
     <main class="main-content">
@@ -81,23 +101,46 @@
         <div class="pollutants">
           <div class="pollutant-card">
             <h5>PM2.5</h5>
-            <p id="pm25">--</p>
-            <small>µg/m³</small>
+            <div class="pollutant-value-container">
+              <p id="pm25">--</p>
+              <small>µg/m³</small>
+            </div>
+            <div class="pollutant-bar-bg"><div class="pollutant-bar" id="pm25Bar"></div></div>
           </div>
+          
           <div class="pollutant-card">
             <h5>PM10</h5>
-            <p id="pm10">--</p>
-            <small>µg/m³</small>
+            <div class="pollutant-value-container">
+              <p id="pm10">--</p>
+              <small>µg/m³</small>
+            </div>
+            <div class="pollutant-bar-bg"><div class="pollutant-bar" id="pm10Bar"></div></div>
           </div>
+          
           <div class="pollutant-card">
             <h5>NO₂</h5>
-            <p id="no2">--</p>
-            <small>µg/m³</small>
+            <div class="pollutant-value-container">
+              <p id="no2">--</p>
+              <small>µg/m³</small>
+            </div>
+            <div class="pollutant-bar-bg"><div class="pollutant-bar" id="no2Bar"></div></div>
           </div>
+          
           <div class="pollutant-card">
             <h5>O₃</h5>
-            <p id="o3">--</p>
-            <small>µg/m³</small>
+            <div class="pollutant-value-container">
+              <p id="o3">--</p>
+              <small>µg/m³</small>
+            </div>
+            <div class="pollutant-bar-bg"><div class="pollutant-bar" id="o3Bar"></div></div>
+          </div>
+        </div>
+
+        <!-- Risk Graph Box -->
+        <div class="risk-graph-box">
+          <h4 class="pollutants-title">AQI & Pollutant Threat Analysis</h4>
+          <div class="chart-container" style="position: relative; height: 260px; width: 100%;">
+            <canvas id="riskChart"></canvas>
           </div>
         </div>
 
@@ -107,6 +150,10 @@
 
   <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  
+  <!-- Chart.js for beautiful analytics -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   <script src="script.js"></script>
 
 </body>

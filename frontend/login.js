@@ -10,3 +10,21 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
         errorMsg.innerText = 'Invalid credentials. Try admin / admin123';
     }
 });
+
+// Theme Toggle Logic for Login Screen
+const themeToggleBtn = document.getElementById('themeToggleBtn');
+if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', () => {
+        const root = document.documentElement;
+        const currentTheme = root.classList.contains('light-theme') ? 'light' : 'dark';
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        
+        if (newTheme === 'light') {
+            root.classList.add('light-theme');
+        } else {
+            root.classList.remove('light-theme');
+        }
+        
+        localStorage.setItem('theme', newTheme);
+    });
+}
