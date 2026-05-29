@@ -1,5 +1,5 @@
 // Define API endpoint (the python flask backend)
-const API_BASE_URL = 'http://127.0.0.1:5000/api/aqi';
+const API_BASE_URL = 'https://air-pollution-detector.onrender.com';
 
 // Tabs Logic
 const tabBtns = document.querySelectorAll('.tab-btn');
@@ -36,15 +36,15 @@ if (themeToggleBtn) {
         const root = document.documentElement;
         const currentTheme = root.classList.contains('light-theme') ? 'light' : 'dark';
         const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-        
+
         if (newTheme === 'light') {
             root.classList.add('light-theme');
         } else {
             root.classList.remove('light-theme');
         }
-        
+
         localStorage.setItem('theme', newTheme);
-        
+
         // Re-draw the risk chart with updated grid/label theme colors
         if (riskChart && currentChartData) {
             updateChart(currentChartData);
@@ -65,7 +65,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 let currentMarker = null;
 
-map.on('click', function(e) {
+map.on('click', function (e) {
     const lat = e.latlng.lat;
     const lon = e.latlng.lng;
 
@@ -73,7 +73,7 @@ map.on('click', function(e) {
         map.removeLayer(currentMarker);
     }
     currentMarker = L.marker([lat, lon]).addTo(map);
-    
+
     fetchAQIData(`?lat=${lat}&lon=${lon}`);
 });
 
@@ -97,10 +97,10 @@ document.getElementById('locationInput').addEventListener('keypress', (e) => {
 async function fetchAQIData(queryString) {
     const loader = document.getElementById('loader');
     const resultsPanel = document.getElementById('resultsPanel');
-    
+
     loader.style.display = 'block';
     resultsPanel.style.display = 'block';
-    
+
     try {
         const response = await fetch(`${API_BASE_URL}${queryString}`);
         const data = await response.json();
@@ -127,12 +127,12 @@ function updateUI(data) {
     currentChartData = data;
 
     document.getElementById('cityName').innerText = data.city || 'Unknown Location';
-    
+
     const aqiCircle = document.getElementById('aqiCircle');
     const aqiValue = document.getElementById('aqiValue');
     const aqiStatus = document.getElementById('aqiStatus');
     const riskBadge = document.getElementById('riskBadge');
-    
+
     aqiValue.innerText = data.aqi;
     aqiStatus.innerText = data.status;
     riskBadge.innerText = `Risk: ${data.risk}`;
@@ -178,7 +178,7 @@ function updateUI(data) {
         const bar = document.getElementById(barId);
         const percent = getPercent(value, maxVal);
         bar.style.width = `${percent}%`;
-        
+
         // Match progress bar colors to standard environmental threat metrics
         if (percent <= 25) {
             bar.style.background = 'linear-gradient(90deg, #10b981, #059669)';
@@ -203,24 +203,24 @@ function updateUI(data) {
 // Render or Update the visual AQI Risk Chart using Chart.js
 function updateChart(data) {
     const ctx = document.getElementById('riskChart').getContext('2d');
-    
+
     // Extract numerical concentrations
     const aqi = parseFloat(data.aqi) || 0;
     const pm25 = parseFloat(data.pollutants.pm25) || 0;
     const pm10 = parseFloat(data.pollutants.pm10) || 0;
     const no2 = parseFloat(data.pollutants.no2) || 0;
     const o3 = parseFloat(data.pollutants.o3) || 0;
-    
+
     // Normalize concentrations to visual risk percentages (0-100%)
     const aqiRisk = Math.min(100, (aqi / 300) * 100);
     const pm25Risk = Math.min(100, (pm25 / 150) * 100);
     const pm10Risk = Math.min(100, (pm10 / 200) * 100);
     const no2Risk = Math.min(100, (no2 / 100) * 100);
     const o3Risk = Math.min(100, (o3 / 150) * 100);
-    
+
     const chartLabels = ['Overall AQI', 'PM2.5', 'PM10', 'NO₂', 'O₃'];
     const chartData = [aqiRisk, pm25Risk, pm10Risk, no2Risk, o3Risk];
-    
+
     // Color coding bars dynamically based on calculated threat percentages
     const getBarColor = (percentage) => {
         if (percentage <= 25) return '#10b981'; // Emerald Good
@@ -228,7 +228,7 @@ function updateChart(data) {
         if (percentage <= 75) return '#f97316'; // Orange Unhealthy
         return '#ef4444'; // Red Hazardous
     };
-    
+
     const barColors = chartData.map(val => getBarColor(val));
     const isDark = !document.documentElement.classList.contains('light-theme');
     const gridColor = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(15, 23, 42, 0.08)';
@@ -239,7 +239,7 @@ function updateChart(data) {
         riskChart.data.datasets[0].data = chartData;
         riskChart.data.datasets[0].backgroundColor = barColors;
         riskChart.data.datasets[0].borderColor = barColors;
-        
+
         // Update theme grids and tick text colors dynamically
         riskChart.options.scales.x.grid.color = gridColor;
         riskChart.options.scales.y.grid.color = gridColor;
@@ -277,7 +277,7 @@ function updateChart(data) {
                         borderColor: isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(15, 23, 42, 0.08)',
                         borderWidth: 1,
                         callbacks: {
-                            label: function(context) {
+                            label: function (context) {
                                 return ` Threat level: ${context.parsed.x.toFixed(0)}%`;
                             }
                         }
@@ -292,7 +292,7 @@ function updateChart(data) {
                         },
                         ticks: {
                             color: textColor,
-                            callback: function(value) {
+                            callback: function (value) {
                                 return value + '%';
                             }
                         }
