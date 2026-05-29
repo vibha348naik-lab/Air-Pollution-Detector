@@ -1,13 +1,18 @@
 import os
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import requests
 from dotenv import load_dotenv
 
 load_dotenv()
 
-app = Flask(__name__)
+# Serve static files from the frontend directory
+app = Flask(__name__, static_folder='../frontend', static_url_path='/')
 CORS(app)
+
+@app.route('/')
+def index():
+    return app.send_static_file('index.html')
 
 API_KEY = os.getenv("AQI_API_KEY", "")
 # Defaulting to WAQI (World Air Quality Index) API format
