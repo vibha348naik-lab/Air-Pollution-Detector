@@ -102,7 +102,7 @@ async function fetchAQIData(queryString) {
     resultsPanel.style.display = 'block';
 
     try {
-        const response = await fetch(`${API_BASE_URL}${queryString}`);
+        const response = await fetch(`${API_BASE_URL}/api/aqi${queryString}`);
         const data = await response.json();
 
         loader.style.display = 'none';
